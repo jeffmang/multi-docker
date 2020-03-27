@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # use client docker dev file because that one has the tests. prod does not
+  # ./client means to look into client dir to get client context
+  - docker build -t aim2000/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  # add in additional test script commands here
+  - docker run aim2000/react-test npm test -- --coverage
+
+after_success:
+  # build in aim2000 account production images all starting with multi- and place in the docker subfolder
+  - docker build -t aim2000/multi-client ./client
+  - docker build -t aim2000/multi-nginx ./nginx
+  - docker build -t aim2000/multi-server ./server
+  - docker build -t aim2000/multi-worker ./worker
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"--password-stdin
+  #take those images and push them to docker hub
+  - docker push aim2000/multi-client
+  - docker push aim2000/multi-nginx
+  - docker push aim2000/multi-server
+  - docker push aim2000/multi-worker
+  
