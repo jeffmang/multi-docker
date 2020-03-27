@@ -9,7 +9,7 @@ before_install:
 
 script:
   # add in additional test script commands here
-  - docker run -e CI=true aim2000/react-test npm test
+  - docker run -e CI=true aim2000/react-test npm run test -- --coverage
 
 after_success:
   # build in aim2000 account production images all starting with multi- and place in the docker subfolder
