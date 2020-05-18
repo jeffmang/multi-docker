@@ -5,7 +5,7 @@ services:
 
 before_install:
   # use client docker dev file because that one has the tests. prod does not
-  # ./client means to look into client dir to get client context
+  # ./client means to look into client dir to as place to run and get DockerFile
   - docker build -t aim2000/react-test -f ./client/Dockerfile.dev ./client
 
 script:

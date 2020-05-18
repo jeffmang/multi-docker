@@ -9,9 +9,10 @@ RUN npm install
 # copy over everything else
 COPY . .
 # execute command npm run build - which will output all asset files to /app/build
-CMD ["npm", "run", "build"]
+# oldver 'CMD ["npm", "run", "build"]'
+RUN npm run build
 
-# start new image which is nginx
+# start new image which is nginx - nginx is used for routing web requests
 FROM nginx
 # make port 3000 available outside the container
 EXPOSE 3000
